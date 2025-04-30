@@ -1,0 +1,79 @@
+{
+  jobByID(job_id: 577699){
+    job_id
+    title
+    description
+    url
+    company
+    experience
+    job_type
+    location {
+      city
+      country
+    }
+  }
+}
+
+{
+  jobByCompany(title: "Google", limit: 1, offset: 1){
+    rows {
+      job_id
+      title
+      description
+      url
+      company
+      experience
+      job_type
+      location {
+        city
+        country
+      }
+    }
+    total_records {
+      t_rec
+    }
+  }
+}
+
+
+{
+  jobByTitle(title: "Backend Developer", limit: 1, offset: 1){
+    rows {
+      job_id
+      title
+      description
+      url
+      company
+      experience
+      job_type
+      location {
+        city
+        country
+      }
+    }
+    total_records {
+      t_rec
+    }
+  }
+}
+
+{
+  jobs(limit: 5, offset: 5) {
+    rows {
+      job_id
+      title
+      description
+      url
+      company
+      experience
+      job_type
+      location {
+        city
+        country
+      }
+    }
+    total_records {
+      t_rec
+    }
+  }
+}

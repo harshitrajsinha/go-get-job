@@ -1,0 +1,38 @@
+enum JobType {
+  FULL_TIME
+  CONTRACT
+  REMOTE
+}
+
+type Location {
+  city: String!
+  country: String!
+}
+
+type TotalRecords {
+  t_rec: Int!
+}
+
+type JobData {
+  rows: [JobListing!]!
+  total_records: TotalRecords!
+}
+
+type JobListing {
+  id: ID!
+  job_id: Int!
+  title: String!
+  description: String!
+  company: String!
+  url: String!
+  experience: String!
+  job_type: JobType!
+  location: Location!
+}
+
+type Query {
+  jobs(limit: Int!, offset: Int!): JobData!
+  jobByTitle(title: String!, limit: Int!, offset: Int!): JobData!
+  jobByID(job_id: Int!): JobListing!
+  jobByCompany(company: String!, limit: Int!, offset: Int!): JobData!
+}
