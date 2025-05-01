@@ -2,16 +2,16 @@ version: "3.8"
 
 services:
   db:
-    image: postgres:17
+    image: postgres:16.8-alpine3.20
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: harshit
-      POSTGRES_DB: test
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"] # ["CMD-SHELL", "pg_isready -U dbuser"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -21,11 +21,11 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASS: harshit
-      DB_NAME: test
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
     depends_on:
       db:
         condition: service_healthy
