@@ -214,6 +214,7 @@ func (j JobStore) GetJobByID(ctx context.Context, job_id int32) (*model.JobListi
 		log.Println("error getting data", err)
 		return nil, errors.New("error getting data")
 	}
+	queryData.Company = capitalize(&queryData.Company)
 
 	return &queryData, nil
 }

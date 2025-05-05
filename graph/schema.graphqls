@@ -1,7 +1,7 @@
 enum JobType {
-  FULL_TIME
-  CONTRACT
-  REMOTE
+  full_time
+  contract
+  remote
 }
 
 type Location {

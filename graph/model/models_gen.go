@@ -41,9 +41,9 @@ type TotalRecords struct {
 type JobType string
 
 const (
-	JobTypeFullTime JobType = "FULL_TIME"
-	JobTypeContract JobType = "CONTRACT"
-	JobTypeRemote   JobType = "REMOTE"
+	JobTypeFullTime JobType = "full_time"
+	JobTypeContract JobType = "contract"
+	JobTypeRemote   JobType = "remote"
 )
 
 var AllJobType = []JobType{

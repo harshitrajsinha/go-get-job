@@ -10,7 +10,6 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
-	"github.com/99designs/gqlgen/graphql/handler/lru"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/harshitrajsinha/go-get-job/driver"
@@ -18,7 +17,7 @@ import (
 	"github.com/harshitrajsinha/go-get-job/store"
 	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
-	"github.com/vektah/gqlparser/v2/ast"
+	"github.com/redis/go-redis/v9"
 )
 
 const defaultPort = "8000"
@@ -26,6 +25,7 @@ const defaultPort = "8000"
 //go:embed store/schema.sql
 var schemaFS embed.FS
 var db *sql.DB
+var rdb *redis.Client
 
 type dbConfig struct {
 	User string `envconfig:"DB_USER"`
@@ -65,7 +65,7 @@ func init() {
 	if err != nil {
 		log.Fatalf("failed to load config: %v", err)
 	}
-
+	fmt.Println(cfg)
 	connStr := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=disable&connect_timeout=30", cfg.User, cfg.Pass, cfg.Host, cfg.Port, cfg.Name)
 	dbDriver := "postgres"
 
@@ -83,6 +83,13 @@ func init() {
 		log.Println("SQL file executed successfully!")
 	}
 
+	// setup redis connection
+	hostname := "redis:6379"
+	rdb, err = driver.InitRedis(hostname)
+	if err != nil {
+		log.Fatalf("Failed to connect to redis: %v", err)
+	}
+
 }
 
 func main() {
@@ -95,7 +102,7 @@ func main() {
 	}
 
 	dbStore := store.NewJobStore(db)
-	gqlQueryResolver := graph.NewGQLQueryResolver(dbStore)
+	gqlQueryResolver := graph.NewGQLQueryResolver(dbStore, rdb)
 
 	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: gqlQueryResolver}))
 
@@ -103,12 +110,7 @@ func main() {
 	srv.AddTransport(transport.GET{})
 	srv.AddTransport(transport.POST{})
 
-	srv.SetQueryCache(lru.New[*ast.QueryDocument](1000))
-
 	srv.Use(extension.Introspection{})
-	srv.Use(extension.AutomaticPersistedQuery{
-		Cache: lru.New[string](100),
-	})
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)

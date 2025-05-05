@@ -8,6 +8,7 @@ A project based on Golang and PostgreSQL that showcase CRUD operations using Gra
 - **Pagination** to reduce load
 - **Error handling** for debugging
 - **Persistant storage** using PostgreSQL
+- **Caching** to improve performance
 <!-- - **API creation and consumption** using Golang and GraphQL -->
 
 ## 📌 Tech Stack
@@ -15,6 +16,7 @@ A project based on Golang and PostgreSQL that showcase CRUD operations using Gra
 <!-- - 🖥️ **Frontend:** HTML, CSS, Golang -->
 
 - **Backend:** Golang
+- **Cache:** Redis
 - **Database:** PostgreSQL
 - **Deployment:** Github (Code Repository)
 - **Containerization** Docker
@@ -45,8 +47,8 @@ DB_USER=postgres
 DB_NAME=yourfavouritedbname
 DB_PASS=yourstrongpassword
 DB_PORT=5432
-DB_HOST = db
-APP_PORT = 8000
+DB_HOST=db
+APP_PORT=8000
 ```
 
 ### 4. Run the application
