@@ -1,6 +1,6 @@
 # GO GET JOB
 
-A project based on Golang and PostgreSQL that showcase CRUD operations using GraphQL. The application uses docker for containerization.
+A backend project based on Golang and PostgreSQL that showcase CRUD operations using GraphQL. The application uses docker for containerization.
 
 ## ✨Features
 
@@ -9,17 +9,16 @@ A project based on Golang and PostgreSQL that showcase CRUD operations using Gra
 - **Error handling** for debugging
 - **Persistant storage** using PostgreSQL
 - **Caching** to improve performance
-<!-- - **API creation and consumption** using Golang and GraphQL -->
 
 ## 📌 Tech Stack
 
-<!-- - 🖥️ **Frontend:** HTML, CSS, Golang -->
-
-- **Backend:** Golang
-- **Cache:** Redis
+- **Backend:** Golang, GraphQL
 - **Database:** PostgreSQL
+- **Cache:** Redis
 - **Deployment:** Github (Code Repository)
-- **Containerization** Docker
+- **Containerization:** Docker
+
+![Project Screenshot](./images/Screenshot%202025-07-14%20130748.png)
 
 ## 🚀 Quick Start
 
@@ -68,3 +67,7 @@ docker-compose down # remove existing container
 docker volume rm go-get-job_db_data # remove stored data from <folder>_db_data
 docker-compose up --build # rebuild the container with update
 ```
+
+![Project Screenshot](./images/Screenshot%202025-07-14%20130601.png)
+
+![Project Screenshot](./images/Screenshot%202025-07-14%20130633.png)

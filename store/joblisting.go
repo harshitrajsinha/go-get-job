@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/harshitrajsinha/go-get-job/graph/model"
 )
@@ -25,7 +26,7 @@ func capitalize(word *string) string {
 	return (capitalizedWord)
 }
 
-func (j JobStore) GetJobs(ctx context.Context, limit int32, offset int32) (*model.JobData, error) {
+func (j JobStore) GetJobs(limit int32, offset int32) (*model.JobData, error) {
 
 	lists := make([]*model.JobListing, 0)
 	total_records := model.TotalRecords{
@@ -40,6 +41,9 @@ func (j JobStore) GetJobs(ctx context.Context, limit int32, offset int32) (*mode
 	if limit <= 0 {
 		limit = 10
 	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+	defer cancel()
 
 	rows, err := j.db.QueryContext(ctx, "SELECT id, title, company, url, description, job_id, experience, job_type, city, country,  count(*) over() as total_records FROM joblisting ORDER BY posted_on LIMIT $1 OFFSET $2", limit, offset)
 
@@ -79,7 +83,7 @@ func (j JobStore) GetJobs(ctx context.Context, limit int32, offset int32) (*mode
 	return &jobData, nil
 }
 
-func (j JobStore) GetJobByTitle(ctx context.Context, title string, limit int32, offset int32) (*model.JobData, error) {
+func (j JobStore) GetJobByTitle(title string, limit int32, offset int32) (*model.JobData, error) {
 
 	lists := make([]*model.JobListing, 0)
 	total_records := model.TotalRecords{
@@ -98,6 +102,9 @@ func (j JobStore) GetJobByTitle(ctx context.Context, title string, limit int32, 
 	if title == "" {
 		return nil, errors.New("job title is required")
 	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+	defer cancel()
 
 	rows, err := j.db.QueryContext(ctx, "SELECT id, title, company, url, description, job_id, experience, job_type, city, country, count(*) over() as total_records FROM joblisting WHERE title ~* $1 ORDER BY posted_on LIMIT $2 OFFSET $3", title, limit, offset)
 
@@ -137,7 +144,7 @@ func (j JobStore) GetJobByTitle(ctx context.Context, title string, limit int32, 
 	return &jobData, nil
 }
 
-func (j JobStore) GetJobByCompany(ctx context.Context, company string, limit int32, offset int32) (*model.JobData, error) {
+func (j JobStore) GetJobByCompany(company string, limit int32, offset int32) (*model.JobData, error) {
 
 	lists := make([]*model.JobListing, 0)
 	total_records := model.TotalRecords{
@@ -156,6 +163,9 @@ func (j JobStore) GetJobByCompany(ctx context.Context, company string, limit int
 	if company == "" {
 		return nil, errors.New("company is required")
 	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+	defer cancel()
 
 	rows, err := j.db.QueryContext(ctx, "SELECT id, title, company, url, description, job_id, experience, job_type, city, country, count(*) over() as total_records FROM joblisting WHERE company ~* $1 GROUP BY id, title, company, url, description, job_id, experience, job_type, city, country ORDER BY posted_on LIMIT $2 OFFSET $3", company, limit, offset)
 	if err != nil {
@@ -197,11 +207,14 @@ func (j JobStore) GetJobByCompany(ctx context.Context, company string, limit int
 	return &jobData, nil
 }
 
-func (j JobStore) GetJobByID(ctx context.Context, job_id int32) (*model.JobListing, error) {
+func (j JobStore) GetJobByID(job_id int32) (*model.JobListing, error) {
 
 	queryData := model.JobListing{
 		Location: &model.Location{},
 	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+	defer cancel()
 
 	err := j.db.QueryRowContext(ctx, "SELECT id, title, company, url, description, job_id, experience, job_type, city, country FROM joblisting WHERE job_id=$1", job_id).Scan(
 		&queryData.ID, &queryData.Title, &queryData.Company, &queryData.URL, &queryData.Description, &queryData.JobID, &queryData.Experience, &queryData.JobType, &queryData.Location.City, &queryData.Location.Country)

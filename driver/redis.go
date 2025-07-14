@@ -3,6 +3,7 @@ package driver
 import (
 	"context"
 	"log"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -14,7 +15,9 @@ func InitRedis(hostname string) (*redis.Client, error) {
 		DB:       0,  // use default DB
 	})
 
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
 	_, err := rdb.Ping(ctx).Result()
 	if err != nil {
 		log.Println("Redis connection failed:", err)

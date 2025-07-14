@@ -30,7 +30,7 @@ func InitDB(dbDriver string, connString string) (*sql.DB, error) {
 	db.SetConnMaxLifetime(30 * time.Minute)
 	db.SetConnMaxIdleTime(5 * time.Minute)
 
-	// connection timeout at application level
+	// connection timeout of 30seconds
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 

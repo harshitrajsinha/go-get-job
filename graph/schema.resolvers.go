@@ -32,7 +32,7 @@ func (r *queryResolver) Jobs(ctx context.Context, limit int32, offset int32) (*m
 
 		// Cache miss - fetch from DB
 		log.Printf("Cache miss for jobs:limit:%d:offset:%d", limit, offset)
-		data, err := r.res.GetJobs(ctx, limit, offset)
+		data, err := r.res.GetJobs(limit, offset)
 		if err != nil {
 			return nil, gqlerror.Errorf("%s", err)
 		}
@@ -45,7 +45,7 @@ func (r *queryResolver) Jobs(ctx context.Context, limit int32, offset int32) (*m
 		return data, nil
 	}
 
-	data, err := r.res.GetJobs(ctx, limit, offset)
+	data, err := r.res.GetJobs(limit, offset)
 	if err != nil {
 		return nil, gqlerror.Errorf("%s", err)
 	}
@@ -73,7 +73,7 @@ func (r *queryResolver) JobByTitle(ctx context.Context, title string, limit int3
 
 		// Cache miss - fetch from DB
 		log.Printf("Cache miss for jobs:title:%s:limit:%d:offset:%d", title, limit, offset)
-		data, err := r.res.GetJobByTitle(ctx, title, limit, offset)
+		data, err := r.res.GetJobByTitle(title, limit, offset)
 		if err != nil {
 			return nil, gqlerror.Errorf("%s", err)
 		}
@@ -86,7 +86,7 @@ func (r *queryResolver) JobByTitle(ctx context.Context, title string, limit int3
 		return data, nil
 	}
 
-	data, err := r.res.GetJobByTitle(ctx, title, limit, offset)
+	data, err := r.res.GetJobByTitle(title, limit, offset)
 	if err != nil {
 		return nil, gqlerror.Errorf("%s", err)
 	}
@@ -114,7 +114,7 @@ func (r *queryResolver) JobByID(ctx context.Context, jobID int32) (*model.JobLis
 
 	// Cache miss - fetch from DB
 	log.Printf("Cache miss for job_id: %d", jobID)
-	data, err := r.res.GetJobByID(ctx, jobID)
+	data, err := r.res.GetJobByID(jobID)
 	if err != nil {
 		return nil, gqlerror.Errorf("%s", err)
 	}
@@ -147,7 +147,7 @@ func (r *queryResolver) JobByCompany(ctx context.Context, company string, limit 
 
 		// Cache miss - fetch from DB
 		log.Printf("Cache miss for jobs:title:%s:limit:%d:offset:%d", company, limit, offset)
-		data, err := r.res.GetJobByTitle(ctx, company, limit, offset)
+		data, err := r.res.GetJobByTitle(company, limit, offset)
 		if err != nil {
 			return nil, gqlerror.Errorf("%s", err)
 		}
@@ -160,7 +160,7 @@ func (r *queryResolver) JobByCompany(ctx context.Context, company string, limit 
 		return data, nil
 	}
 
-	data, err := r.res.GetJobByCompany(ctx, company, limit, offset)
+	data, err := r.res.GetJobByCompany(company, limit, offset)
 	if err != nil {
 		return nil, gqlerror.Errorf("%s", err)
 	}

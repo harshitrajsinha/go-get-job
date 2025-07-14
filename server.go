@@ -59,13 +59,15 @@ func init() {
 	var cfg dbConfig
 	var err error
 
-	// load environment variables
+	// load environment variables from .env to program's env
 	_ = godotenv.Load()
-	err = envconfig.Process("", &cfg)
+
+	err = envconfig.Process("", &cfg) // Load env vars into struct 'cfg'
 	if err != nil {
 		log.Fatalf("failed to load config: %v", err)
 	}
-	fmt.Println(cfg)
+	// fmt.Println(cfg)
+
 	connStr := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=disable&connect_timeout=30", cfg.User, cfg.Pass, cfg.Host, cfg.Port, cfg.Name)
 	dbDriver := "postgres"
 
@@ -95,6 +97,7 @@ func init() {
 func main() {
 
 	defer db.Close()
+	defer rdb.Close()
 
 	port := os.Getenv("PORT")
 	if port == "" {
