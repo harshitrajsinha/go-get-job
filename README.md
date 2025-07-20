@@ -2,6 +2,10 @@
 
 A backend project based on Golang and PostgreSQL that showcase CRUD operations using GraphQL. The application uses docker for containerization.
 
+## 👨‍🚀 Postman Collection Documentation
+
+[Postman Documentation URL](https://documenter.getpostman.com/view/40689865/2sB34kEKCS)
+
 ## ✨Features
 
 - **Dependency Injection** for modularity
@@ -18,7 +22,7 @@ A backend project based on Golang and PostgreSQL that showcase CRUD operations u
 - **Deployment:** Github (Code Repository)
 - **Containerization:** Docker
 
-![Project Screenshot](./images/Screenshot%202025-07-14%20130748.png)
+![Project Screenshot](./public/images/Screenshot%202025-07-14%20130748.png)
 
 ## 🚀 Quick Start
 
@@ -68,6 +72,6 @@ docker volume rm go-get-job_db_data # remove stored data from <folder>_db_data
 docker-compose up --build # rebuild the container with update
 ```
 
-![Project Screenshot](./images/Screenshot%202025-07-14%20130601.png)
+![Project Screenshot](./public/images/Screenshot%202025-07-14%20130601.png)
 
-![Project Screenshot](./images/Screenshot%202025-07-14%20130633.png)
+![Project Screenshot](./public/images/Screenshot%202025-07-14%20130633.png)
